@@ -1,8 +1,8 @@
 # CMU Interactive Data Science Final Project
 
-* **Online URL**: TODO
+* **Online URL**: https://github.com/CMU-IDS-2022/final-project-zebra
 * **Team members**:
-  * Contact person: ndf@andrew.cmu.edu
+  * ndf@andrew.cmu.edu
   * namana@andrew.cmu.edu
   * ruhihemp@andrew.cmu.edu
   * somyaa@andrew.cmu.edu
