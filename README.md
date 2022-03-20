@@ -5,7 +5,7 @@
   * Contact person: TODO@andrew.cmu.edu
   * TODO@andrew.cmu.edu
   * TODO@andrew.cmu.edu
-  * TODO@andrew.cmu.edu
+  * somyaa@andrew.cmu.edu
 
 ## Work distribution
 
