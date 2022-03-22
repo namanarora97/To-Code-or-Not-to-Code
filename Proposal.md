@@ -18,8 +18,12 @@ We selected the results from the 2018 Stack Overflow Developer Survey. This ques
 It seems that a user-driver “Interactive Visualization/ Application Track” is best-suited to addressing this question. Our application would briefly explain the data and ask the question, perhaps with some initial suggestions for exploration, drawing the user in and allowing them to explore the data along their own path. However, if we find a series of compelling relationships a narrative track might allow us to better direct the user towards these key insights.
 
 ## Next steps:
-o	Sketching: each of us will make 3x initial sketches of questions we would like to try to answer. We should have the data schema in front of us while sketching, but not the actual data. We can then compare the 12 resulting sketches as a group, pick the best ones, refine them.
-o	Data exploration: we will then use Tableau to do initial exploration of the features we are interested in, checking for interesting relationships between features, feature values and summary statistics, and compelling visualizations. 
-o	Sketching round 2: this round of sketching will focus on tying together the areas of exploration that we feel are most promising based on the data exploration. How will the user navigate through the data? What interactivity will occur between graphs? 
-o	This takes us through the initial design phase of the project. Once we have sketched individual visualizations, explored the data, and sketched a way to link together the individual visualizations we will be better able to plan the actual development of the product. 
+### Sketching: 
+each of us will make 3x initial sketches of questions we would like to try to answer. We should have the data schema in front of us while sketching, but not the actual data. We can then compare the 12 resulting sketches as a group, pick the best ones, refine them.
+### Data exploration: 
+we will then use Tableau to do initial exploration of the features we are interested in, checking for interesting relationships between features, feature values and summary statistics, and compelling visualizations. 
+### Sketching round 2: 
+This round of sketching will focus on tying together the areas of exploration that we feel are most promising based on the data exploration. How will the user navigate through the data? What interactivity will occur between graphs?  
+
+This takes us through the initial design phase of the project. Once we have sketched individual visualizations, explored the data, and sketched a way to link together the individual visualizations we will be better able to plan the actual development of the product. 
 
