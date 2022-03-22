@@ -2,10 +2,10 @@
 
 * **Online URL**: https://github.com/CMU-IDS-2022/final-project-zebra
 * **Team members**:
-  * ndf@andrew.cmu.edu
-  * namana@andrew.cmu.edu
-  * ruhihemp@andrew.cmu.edu
-  * somyaa@andrew.cmu.edu
+  * [Nate](mailto:ndf@andrew.cmu.edu)
+  * [Naman](mailto:namana@andrew.cmu.edu)
+  * [Ruhi](mailto:ruhihemp@andrew.cmu.edu)
+  * [Somya](mailto:somyaa@andrew.cmu.edu)
 
 ## Work distribution
 
