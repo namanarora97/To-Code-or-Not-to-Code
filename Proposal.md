@@ -28,6 +28,20 @@ This round of sketching will focus on tying together the areas of exploration th
 This takes us through the initial design phase of the project. Once we have sketched individual visualizations, explored the data, and sketched a way to link together the individual visualizations we will be better able to plan the actual development of the product. 
 
 
+# Data Analysis
+We are using DeepNote (Pandas), Tableau and Trifacta for collaboratively working on data analysis.  
+
+The dataset is quite rich and in good shape. Since the data is collected using surveys, there are certainly some nulls which we would consider dropping. 
+
+
+![SfinA4GDVH](https://user-images.githubusercontent.com/85018020/163656786-22657ceb-b654-4e95-aaaf-5c84b82a71b5.png)
+![aBhZPFzFw5](https://user-images.githubusercontent.com/85018020/163656950-6ce2c0b7-2164-47ed-943e-e48337b15894.png)
+
+We have a large amount of data with 129 features available. We can drill down into each and choose what make the msot sense going forward. We have explored a subset of these in our sketches and initial EDA process.  
+
+![msedge_s8G6E8LMMB](https://user-images.githubusercontent.com/85018020/163657100-7e21a139-9349-4e9c-bd88-0a0bbfafa3da.gif)
+
+
 # Sketches
 
 ![bFOtfENE32](https://user-images.githubusercontent.com/85018020/163656549-f5b7f769-4704-4cf7-b608-05004a6810cb.png)
