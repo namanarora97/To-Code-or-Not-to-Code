@@ -93,7 +93,7 @@ demo = alt.Chart(df[:10000]).properties(width = 700,height = 700).transform_fold
     sel  
 ).mark_point().encode(
     #alt.X('ConvertedSalary:Q',scale=alt.Scale(domain=(0, 2000000))),
-    alt.X('Education'),
+    alt.X('FormalEducation'),
     alt.Y("median(ConvertedSalary)"), 
     color = 'value:N',
     tooltip = 'value:N',
