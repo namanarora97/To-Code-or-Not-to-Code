@@ -70,7 +70,7 @@ st.write(""" Insight: """)
 #Personal Habits visualization
 columns1=['Exercise', 'SkipMeals','WakeTime','HoursComputer']
 df = df.dropna(subset=columns1, how='any')
-input_dropdown = alt.binding_select(options=columns, name="Select habit ")
+input_dropdown = alt.binding_select(options=columns1, name="Select habit ")
 picked = alt.selection_single(fields=["Select habit"], bind=input_dropdown,init={'Select habit': 'Exercise'})
 
 hist = alt.Chart(df).transform_fold(columns, as_= ['Select habit','value']).transform_filter(picked).mark_bar( color= 'Green', opacity=0.7).encode(
