@@ -77,14 +77,8 @@ hist = alt.Chart(df[:10000]).transform_fold(columns1, as_= ['Select habit','valu
     alt.X("value:N",sort='-y'), 
     alt.Y("median(ConvertedSalary)"), 
     opacity='count(value):Q',
-   
-   tooltip = [alt.Tooltip('mean(ConvertedSalary):N')
-              ]
-    
-    ).add_selection(picked).properties(width=800,height=500)
-
-
-
+   tooltip = [alt.Tooltip('mean(ConvertedSalary):N')]
+   ).add_selection(picked).properties(width=800,height=500)
 
 # define dropdown
 columns = ['JobSatisfaction','CareerSatisfaction']
@@ -92,15 +86,15 @@ columns = ['JobSatisfaction','CareerSatisfaction']
 select_box = alt.binding_select(options=columns, name='column')
 sel = alt.selection_single(fields=['column'], bind=select_box, init={'column': 'JobSatisfaction'})
 
-
 demo = alt.Chart(df[:10000]).properties(width = 700,height = 700).transform_fold(
     columns,
     as_=['column', 'value']
 ).transform_filter(
     sel  
 ).mark_point().encode(
-    alt.X('ConvertedSalary:Q',scale=alt.Scale(domain=(0, 2000000))),
-    y = 'count():N',
+    #alt.X('ConvertedSalary:Q',scale=alt.Scale(domain=(0, 2000000))),
+    alt.X('Education'),
+    alt.Y("median(ConvertedSalary)"), 
     color = 'value:N',
     tooltip = 'value:N',
 ).configure_mark(
