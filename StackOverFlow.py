@@ -73,7 +73,7 @@ df = df.dropna(subset=columns1, how='any')
 input_dropdown = alt.binding_select(options=columns1, name="Select habit ")
 picked = alt.selection_single(fields=["Select habit"], bind=input_dropdown,init={'Select habit': 'Exercise'})
 
-hist = alt.Chart(df).transform_fold(columns1, as_= ['Select habit','value']).transform_filter(picked).mark_bar( color= 'Green', opacity=0.7).encode(
+hist = alt.Chart(df[:10000]).transform_fold(columns1, as_= ['Select habit','value']).transform_filter(picked).mark_bar( color= 'Green', opacity=0.7).encode(
     alt.X("value:N",sort='-y'), 
     alt.Y("median(ConvertedSalary)"), 
     opacity='count(value):Q',
