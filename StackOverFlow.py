@@ -67,6 +67,19 @@ df.replace({"CareerSatisfaction": dict},inplace=True)
 st.header("Does Salary impacts your Career and Job satisfaction")
 st.write(""" Insight: """)
 
+input_dropdown = alt.binding_select(options=columns1, name="Select habit ")
+picked = alt.selection_single(fields=["Select habit"], bind=input_dropdown,init={'Select habit': 'Exercise'})
+
+hist = alt.Chart(df[:10000]).transform_fold(columns1, as_= ['Select habit','value']).transform_filter(picked).mark_bar().encode(
+    alt.X("value:N"), 
+    alt.Y("median(ConvertedSalary)"), 
+    tooltip = [alt.Tooltip('mean(ConvertedSalary):Q')
+              ]
+    
+    ).add_selection(picked).properties(width=800,height=500)
+
+
+
 # define dropdown
 columns = ['JobSatisfaction','CareerSatisfaction']
 
@@ -90,6 +103,7 @@ demo = alt.Chart(df[:10000]).properties(width = 700,height = 700).transform_fold
     sel
 ).interactive()
 st.altair_chart(demo)
+st.altair_chart(hist)
 
 
         
