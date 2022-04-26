@@ -68,6 +68,8 @@ st.header("Does Salary impacts your Career and Job satisfaction")
 st.write(""" Insight: """)
 
 #Personal Habits visualization
+columns1=['Exercise', 'SkipMeals','WakeTime','HoursComputer']
+df = df.dropna(subset=columns1, how='any')
 input_dropdown = alt.binding_select(options=columns, name="Select habit ")
 picked = alt.selection_single(fields=["Select habit"], bind=input_dropdown,init={'Select habit': 'Exercise'})
 
