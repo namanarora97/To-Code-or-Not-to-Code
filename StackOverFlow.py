@@ -14,7 +14,7 @@ import numpy as np
 @st.experimental_singleton
 def load_data():
     #df = pd.read_csv("Crimes_2021_1.csv")
-    df= pd.read_csv("InitialClean.csv")
+    df= pd.read_csv("https://metashady.blob.core.windows.net/public/InitialClean.csv")
     #salary_category = ["Low(<10,000)", "Low-Med(10k-49k)","Medium(49k-85k)", "High(85k-150k)","Very High(150<)"]
     
     # Drop all unused columns[TBD]
