@@ -1,6 +1,6 @@
 # CMU Interactive Data Science Final Project
 
-* **Online URL**: https://github.com/CMU-IDS-2022/final-project-zebra/StackOverFlow.py
+* **Online URL**: https://share.streamlit.io/cmu-ids-2022/final-project-zebra/main/StackOverFlow.py
 * **Team members**:
   * [Nate](mailto:ndf@andrew.cmu.edu)
   * [Naman](mailto:namana@andrew.cmu.edu)
