@@ -68,17 +68,56 @@ st.header("Does Salary impacts your Career and Job satisfaction")
 st.write(""" Insight: """)
 
 #Personal Habits visualization
+
+
+dict2 = {'''I don't typically exercise''':'''01 I don't typically exercise''',
+       '1 - 2 times per week':'02 1 - 2 times per week',
+       '3 - 4 times per week':'03 3 - 4 times per week',
+       'Daily or almost every day':'04 Daily or almost every day'}
+
+dict3 = {'Never':'01 Never',
+       '1 - 2 times per week':'02 1 - 2 times per week',
+       '3 - 4 times per week':'03 3 - 4 times per week',
+       'Daily or almost every day':'04 Daily or almost every day'}
+
+dict4 = {'Before 5:00 AM':'01 Before 5:00 AM',
+       'Between 5:00 - 6:00 AM':'02 Between 5:00 - 6:00 AM',
+       'Between 6:01 - 7:00 AM':'03 Between 6:01 - 7:00 AM',
+       'Between 7:01 - 8:00 AM':'04 Between 7:01 - 8:00 AM',
+       'Between 8:01 - 9:00 AM':'05 Between 8:01 - 9:00 AM',
+       'Between 9:01 - 10:00 AM':'04 Between 9:01 - 10:00 AM',
+       'Between 10:01 - 11:00 AM':'05 Between 10:01 - 11:00 AM',
+       'Between 11:01 AM - 12:00 PM':'06 Between 11:01 AM - 12:00 PM',
+       'After 12:01 PM':'07 After 12:01 PM',
+       'I do not have a set schedule':'08 I do not have a set schedule',
+       'I work night shifts':'09 I work night shifts'}
+dict5 = {'Less than 1 hour':'01 Less than 1 hour',
+       '1 - 4 hours':'02 1 - 4 hours',
+       '5 - 8 hours':'03 5 - 8 hours',
+       '9 - 12 hours':'04 9 - 12 hours',
+       'Over 12 hours':'05 Over 12 hours'}
+
+df.replace({"Exercise": dict2},inplace=True)
+df.replace({"SkipMeals": dict3},inplace=True)
+df.replace({"WakeTime": dict4},inplace=True)
+df.replace({"HoursComputer": dict5},inplace=True)
+#df.replace({"CareerSatisfaction": dict},inplace=True)
+
 columns1=['Exercise', 'SkipMeals','WakeTime','HoursComputer']
-df = df.dropna(subset=columns1, how='any')
+df1 = df.dropna(subset=columns1, how='any')
 input_dropdown = alt.binding_select(options=columns1, name="Select habit ")
 picked = alt.selection_single(fields=["Select habit"], bind=input_dropdown,init={'Select habit': 'Exercise'})
 
-hist = alt.Chart(df[:10000]).transform_fold(columns1, as_= ['Select habit','value']).transform_filter(picked).mark_bar( color= 'Green', opacity=0.7).encode(
-    alt.X("value:N",sort='-y'), 
+hist = alt.Chart(df1[:10000]).transform_fold(columns1, as_= ['Select habit','value']).transform_filter(picked).mark_bar( color= 'Green', opacity=0.7).encode(
+    alt.X("value:N",sort= "ascending"), 
     alt.Y("median(ConvertedSalary)"), 
     opacity='count(value):Q',
-   tooltip = [alt.Tooltip('mean(ConvertedSalary):N')]
-   ).add_selection(picked).properties(width=800,height=500)
+   
+   tooltip = [alt.Tooltip('median(ConvertedSalary):N')
+              ]
+    
+    ).add_selection(picked).properties(width=800,height=500)
+
 
 # define dropdown
 columns = ['JobSatisfaction','CareerSatisfaction']
