@@ -152,9 +152,6 @@ dict5 = {
     "Over 12 hours": "05 Over 12 hours",
 }
 
-# df.replace({"JobSatisfaction": dict}, inplace=True)
-# df.replace({"CareerSatisfaction": dict}, inplace=True)
-
 df["JobSatisfactionQuant"] = df["JobSatisfactionQuant"].fillna(0)
 
 columns1 = ["Exercise", "SkipMeals", "WakeTime", "HoursComputer"]
@@ -173,7 +170,7 @@ all_habits = [
 ]
 
 hist = (
-    alt.Chart(df1[:10000])
+    alt.Chart(df1.sample(10000, random_state=42))
     .transform_fold(columns1, as_=["Habit", "value"])
     .transform_filter(picked)
     .mark_bar(color="Green", opacity=0.9)

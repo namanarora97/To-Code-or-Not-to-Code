@@ -2,6 +2,9 @@
 us-master.csv
 data/
 
+# Local files
+test_na.ipynb
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
