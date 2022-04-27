@@ -120,27 +120,49 @@ hist = alt.Chart(df1[:10000]).transform_fold(columns1, as_= ['Select habit','val
 
 
 # define dropdown
-columns = ['JobSatisfaction','CareerSatisfaction']
+st.header("Predict Job satisfaction according to your country and Salary")
 
-select_box = alt.binding_select(options=columns, name='column')
-sel = alt.selection_single(fields=['column'], bind=select_box, init={'column': 'JobSatisfaction'})
+st.subheader("Slider")
+slider = st.slider(label = "Salary",min_value=0, max_value=200000, step=1000 , value = 5000)
+st.write("Slider Value: ", slider)
 
-demo = alt.Chart(df[:10000]).properties(width = 700,height = 700).transform_fold(
-    columns,
-    as_=['column', 'value']
-).transform_filter(
-    sel  
-).mark_point().encode(
-    #alt.X('ConvertedSalary:Q',scale=alt.Scale(domain=(0, 2000000))),
-    alt.X('FormalEducation'),
-    alt.Y("median(ConvertedSalary)"), 
-    color = 'value:N',
-    tooltip = 'value:N',
-).configure_mark(
-    opacity=0.8,
-).add_selection(
-    sel
-).interactive()
+country_selectbox = st.selectbox("Country",df['Country'].unique())
+st.write("Dropdown Value: ",country_selectbox)
+
+new_df = new_df[~new_df['JobSatisfaction'].isna()]
+new_df = new_df[~new_df['CareerSatisfaction'].isna()]
+
+new_df_2 = new_df[(new_df['Country'] == country_selectbox)]
+
+new_df_2['distance'] = (new_df_2['ConvertedSalary'] - slider) ** 2
+new_df_2['rank'] = new_df_2['distance'].rank(method='first')
+new_df_3 = new_df_2[new_df_2['rank'] <= 10]
+
+new_df_4 = new_df_3['JobSatisfaction'].value_counts(normalize=True).reset_index()
+new_df_4.columns = ['JobSatisfaction', 'Proportion']
+new_df_4 = new_df_4.sort_values(by = 'Proportion', ascending = False).reset_index(drop=True)
+
+js_all = new_df[['JobSatisfaction']].drop_duplicates()
+
+prediction = new_df_4['JobSatisfaction'].values[0][3:]
+
+new_df_4 = pd.merge(new_df_4, js_all, on = 'JobSatisfaction', how = 'right').fillna(0)
+
+#st.write(new_df_2['JobSatisfaction'].value_counts(normalize = True))
+
+
+mychart = alt.Chart(new_df_4).mark_bar(color='red', width = 30).encode(
+    alt.X('JobSatisfaction'),
+    alt.Y('Proportion'),
+    tooltip = 'Proportion'
+    ).properties(
+    width=500,
+    height=500
+)
+
+st.write(mychart)
+
+st.subheader("You are most likely to be: "+ prediction + " with the chosen salary of " +str(slider)+ " in "+ country_selectbox)
 st.altair_chart(demo)
 st.altair_chart(hist)
 
