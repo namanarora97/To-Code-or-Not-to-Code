@@ -22,6 +22,39 @@ def load_data():
     #df.drop(drop_col)
     return df
 
+#################################################
+#taken and modified from the interactivity lab
+@st.cache
+def get_slice_membership(df, genders, sexualOrientation, races, educations, age_range):
+    """
+    Implement a function that computes which rows of the given dataframe should
+    be part of the slice, and returns a boolean pandas Series that indicates 0
+    if the row is not part of the slice, and 1 if it is part of the slice.
+
+    In the example provided, we assume genders is a list of selected strings
+    (e.g. ['Male', 'Transgender']). We then filter the labels based on which
+    rows have a value for gender that is contained in this list. You can extend
+    this approach to the other variables based on how they are returned from
+    their respective Streamlit components.
+    """
+    labels = pd.Series([1] * len(df), index=df.index)
+    if genders:
+        labels &= df['Gender2'].isin(genders)
+    if sexualOrientation:
+        labels &= df['SexualOrientation2'].isin(sexualOrientation)
+    if races:
+        labels &= df['RaceEthnicity2'].isin(races)
+    if educations:
+        labels &= df['FormalEducation'].isin(educations)
+    if age_range:
+        labels &= df['Age'].isin(age_range)
+    # ... complete this function for the other demographic variables
+    return labels
+
+
+#################################################
+   
+   
 #1. Introduction: Title& Header
 
 alt.data_transformers.enable('default', max_rows = None)
@@ -160,6 +193,20 @@ st.subheader("You are most likely to be: "+ prediction + " with the chosen salar
 
 
 st.altair_chart(hist)
+
+###########################################
+selectedGender = st.multiselect("Select Gender", np.unique(df["Gender2"][df["Gender2"].notnull()]))
+selectedOrientation = st.multiselect("Select Sexual Orientation", np.unique(df["SexualOrientation2"][df["SexualOrientation2"].notnull()]))
+selectedRace = st.multiselect("Select Race", np.unique(df["RaceEthnicity2"][df["RaceEthnicity2"].notnull()]))
+selectedEducation = st.select_slider("Select Highest Completed Level of Education", np.unique(df["FormalEducation"][df["FormalEducation"].notnull()]))
+selectedAge = st.select_slider("Select Age", np.unique(df["Age"][df["Age"].notnull()]))
+
+
+slice = get_slice_membership(df, selectedGender, selectedOrientation, selectedRace, [selectedEducation], [selectedAge])
+slicedData = df[slice]
+
+
+###########################################
 
 
         
