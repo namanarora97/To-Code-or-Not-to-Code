@@ -187,6 +187,7 @@ hist = (
         tooltip=[
             alt.Tooltip("mean(ConvertedSalary):Q", title="Mean Salary in USD/year"),
             alt.Tooltip("mean(JobSatisfactionQuant):Q", title="Mean Job Satisfaction"),
+            alt.Tooltip('count(value):Q',title="Count of records")
         ],
     )
     .add_selection(picked)
