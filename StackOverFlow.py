@@ -128,22 +128,27 @@ df.replace({"Exercise": dict2},inplace=True)
 df.replace({"SkipMeals": dict3},inplace=True)
 df.replace({"WakeTime": dict4},inplace=True)
 df.replace({"HoursComputer": dict5},inplace=True)
-#df.replace({"CareerSatisfaction": dict},inplace=True)
+
+df['JobSatisfactionQuant'] = df['JobSatisfactionQuant'].fillna(0)
 
 columns1=['Exercise', 'SkipMeals','WakeTime','HoursComputer']
 df1 = df.dropna(subset=columns1, how='any')
 input_dropdown = alt.binding_select(options=columns1, name="Select habit ")
 picked = alt.selection_single(fields=["Select habit"], bind=input_dropdown,init={'Select habit': 'Exercise'})
 
-hist = alt.Chart(df1[:10000]).transform_fold(columns1, as_= ['Select habit','value']).transform_filter(picked).mark_bar( color= 'Green', opacity=0.7).encode(
+hist = alt.Chart(df1[:10000]).transform_fold(columns1, as_= ['Select habit','value']).transform_filter(picked).mark_bar( color= 'Green', opacity=0.9).encode(
     alt.X("value:N",sort= "ascending"), 
     alt.Y("median(ConvertedSalary)"), 
-    opacity='count(value):Q',
-   
-   tooltip = [alt.Tooltip('median(ConvertedSalary):N')
-              ]
+    color= 'mean(JobSatisfactionQuant):Q',
+
+                          tooltip = [alt.Tooltip('mean(ConvertedSalary):Q'),
+                                     alt.Tooltip('mean(JobSatisfactionQuant):Q'),
+                                    ],
+        
     
     ).add_selection(picked).properties(width=800,height=500)
+
+
 
 
 # define dropdown
