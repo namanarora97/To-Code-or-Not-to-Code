@@ -157,7 +157,8 @@ mychart = alt.Chart(new_df_4).mark_bar(color='red', width = 30).encode(
 st.write(mychart)
 
 st.subheader("You are most likely to be: "+ prediction + " with the chosen salary of " +str(slider)+ " in "+ country_selectbox)
-st.altair_chart(demo)
+
+
 st.altair_chart(hist)
 
 
