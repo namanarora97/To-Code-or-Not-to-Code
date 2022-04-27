@@ -30,7 +30,7 @@ alt.data_transformers.enable('default', max_rows = None)
 st.title("Factors that makes a programmer successful")
 st.subheader("Team Zebra")
 
-st.write("This dataset contains responses of 100,000 respondents who reported information ranging from their excercise habits to compensative levels")
+st.write("This dataset contains responses of 98,885 respondents who reported information ranging from their excercise habits to compensative levels")
 
 
 #2. Data Loading
@@ -63,13 +63,7 @@ dict = {'Extremely dissatisfied':'01 Extremely dissatisfied',
 df.replace({"JobSatisfaction": dict},inplace=True)
 df.replace({"CareerSatisfaction": dict},inplace=True)
 
-# TODO: Add Graph Description
-st.header("Does Salary impacts your Career and Job satisfaction")
-st.write(""" Insight: """)
-
 #Personal Habits visualization
-
-
 dict2 = {'''I don't typically exercise''':'''01 I don't typically exercise''',
        '1 - 2 times per week':'02 1 - 2 times per week',
        '3 - 4 times per week':'03 3 - 4 times per week',
@@ -129,7 +123,7 @@ st.write("Slider Value: ", slider)
 country_selectbox = st.selectbox("Country",df['Country'].unique())
 st.write("Dropdown Value: ",country_selectbox)
 
-new_df = new_df[~new_df['JobSatisfaction'].isna()]
+new_df = df[~df['JobSatisfaction'].isna()]
 new_df = new_df[~new_df['CareerSatisfaction'].isna()]
 
 new_df_2 = new_df[(new_df['Country'] == country_selectbox)]
