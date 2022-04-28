@@ -30,7 +30,14 @@ def load_data():
 #################################################
 # taken and modified from the interactivity lab
 @st.cache
-def get_slice_membership(df, genders, sexualOrientation, races, educations, age_range):
+def get_slice_membership(
+    df,
+    genders=None,
+    sexualOrientation=None,
+    races=None,
+    educations=None,
+    age_range=None,
+):
     """
     Implement a function that computes which rows of the given dataframe should
     be part of the slice, and returns a boolean pandas Series that indicates 0
@@ -58,8 +65,29 @@ def get_slice_membership(df, genders, sexualOrientation, races, educations, age_
 
 
 @st.cache
-def get_new_df_4(df):
-    pass
+def get_job_satisfaction_df(df, country_selectbox, slider):
+    """
+    Preprocessing steps for job satisfaction prediction chart
+    """
+    new_df = df[~df["JobSatisfaction"].isna()]
+    new_df = new_df[~new_df["CareerSatisfaction"].isna()]
+    new_df_2 = new_df[(new_df["Country"] == country_selectbox)]
+    new_df_2["distance"] = (new_df_2["ConvertedSalary"] - slider) ** 2
+    new_df_2["rank"] = new_df_2["distance"].rank(method="first")
+    new_df_3 = new_df_2[new_df_2["rank"] <= 10]
+    new_df_4 = new_df_3["JobSatisfaction"].value_counts(normalize=True).reset_index()
+    new_df_4.columns = ["JobSatisfaction", "Proportion"]
+    new_df_4 = new_df_4.sort_values(by="Proportion", ascending=False).reset_index(
+        drop=True
+    )
+
+    js_all = new_df[["JobSatisfaction"]].drop_duplicates()
+
+    prediction = new_df_4["JobSatisfaction"].values[0]
+
+    new_df_4 = pd.merge(new_df_4, js_all, on="JobSatisfaction", how="right").fillna(0)
+
+    return prediction, new_df_4
 
 
 #################################################
@@ -100,6 +128,42 @@ def clean_gender_col(gender):
 
 df["Gender"] = df["Gender"].apply(clean_gender_col)
 
+
+
+
+# define dropdown
+st.header("Predict Job satisfaction according to your country and Salary")
+
+st.subheader("Slider")
+slider = st.slider(label="Salary", min_value=0, max_value=200000, step=1000, value=5000)
+st.write("Slider Value: ", slider)
+
+country_selectbox = st.selectbox("Country", df["Country"].unique())
+st.write("Dropdown Value: ", country_selectbox)
+
+prediction, new_df_4 = get_job_satisfaction_df(df, country_selectbox, slider)
+
+
+mychart = (
+    alt.Chart(new_df_4)
+    .mark_bar(color="red", width=30)
+    .encode(alt.X("JobSatisfaction"), alt.Y("Proportion"), tooltip="Proportion")
+    .properties(width=500, height=500)
+)
+
+st.write(mychart)
+
+st.subheader(
+    "You are most likely to be: "
+    + prediction
+    + " with the chosen salary of "
+    + str(slider)
+    + " in "
+    + country_selectbox
+)
+
+st.header("Spending 12 hours a day on a computer to be happier?")
+st.subheader("Think again...")
 dict = {
     "Extremely dissatisfied": "01 Extremely dissatisfied",
     "Moderately dissatisfied": "02 Moderately dissatisfied",
@@ -158,7 +222,7 @@ columns1 = ["Exercise", "SkipMeals", "WakeTime", "HoursComputer"]
 df1 = df.dropna(subset=columns1, how="any")
 input_dropdown = alt.binding_select(options=columns1, name="Habit")
 picked = alt.selection_single(
-    fields=["Habit"], bind=input_dropdown, init={"Habit": "Exercise"}
+    fields=["Habit"], bind=input_dropdown, init={"Habit": "HoursComputer"}
 )
 
 all_habits = [
@@ -184,65 +248,12 @@ hist = (
         tooltip=[
             alt.Tooltip("mean(ConvertedSalary):Q", title="Mean Salary in USD/year"),
             alt.Tooltip("mean(JobSatisfactionQuant):Q", title="Mean Job Satisfaction"),
-            alt.Tooltip('count(value):Q',title="Count of records")
+            alt.Tooltip("count(value):Q", title="Count of records"),
         ],
     )
     .add_selection(picked)
     .properties(width=800, height=500)
 )
-
-
-# define dropdown
-st.header("Predict Job satisfaction according to your country and Salary")
-
-st.subheader("Slider")
-slider = st.slider(label="Salary", min_value=0, max_value=200000, step=1000, value=5000)
-st.write("Slider Value: ", slider)
-
-country_selectbox = st.selectbox("Country", df["Country"].unique())
-st.write("Dropdown Value: ", country_selectbox)
-
-new_df = df[~df["JobSatisfaction"].isna()]
-new_df = new_df[~new_df["CareerSatisfaction"].isna()]
-
-new_df_2 = new_df[(new_df["Country"] == country_selectbox)]
-
-new_df_2["distance"] = (new_df_2["ConvertedSalary"] - slider) ** 2
-new_df_2["rank"] = new_df_2["distance"].rank(method="first")
-new_df_3 = new_df_2[new_df_2["rank"] <= 10]
-
-new_df_4 = new_df_3["JobSatisfaction"].value_counts(normalize=True).reset_index()
-new_df_4.columns = ["JobSatisfaction", "Proportion"]
-new_df_4 = new_df_4.sort_values(by="Proportion", ascending=False).reset_index(drop=True)
-
-js_all = new_df[["JobSatisfaction"]].drop_duplicates()
-
-prediction = new_df_4["JobSatisfaction"].values[0][3:]
-
-new_df_4 = pd.merge(new_df_4, js_all, on="JobSatisfaction", how="right").fillna(0)
-
-# st.write(new_df_2['JobSatisfaction'].value_counts(normalize = True))
-
-
-mychart = (
-    alt.Chart(new_df_4)
-    .mark_bar(color="red", width=30)
-    .encode(alt.X("JobSatisfaction"), alt.Y("Proportion"), tooltip="Proportion")
-    .properties(width=500, height=500)
-)
-
-st.write(mychart)
-
-st.subheader(
-    "You are most likely to be: "
-    + prediction
-    + " with the chosen salary of "
-    + str(slider)
-    + " in "
-    + country_selectbox
-)
-
-
 st.altair_chart(hist)
 
 ###########################################
