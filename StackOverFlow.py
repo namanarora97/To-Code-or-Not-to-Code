@@ -32,7 +32,7 @@ add_selectbox = st.sidebar.radio(
         "Introduction",  # Welcome screen
         "Predict Job satisfaction",  # Somya's Country...
         "Personal Habits",  # Ruhi's habits
-        "Factors for Career satisfaction/dis-satisfaction",  # Somya's
+        "Today to Tomorrow",  # Somya's
         "Measure Success!",  # Nate's model
         "Predict Salary",  # Naman's Model
     ),
@@ -133,6 +133,11 @@ def get_job_satisfaction_df(df, country_selectbox, slider):
     return prediction, new_df_4
 
 
+@st.cache
+def get_new_df(df):
+    return df[~df["HopeFiveYears1"].isna() & ~df["CareerSatisfaction"].isna()]
+
+
 #################################################
 
 
@@ -171,44 +176,53 @@ if add_selectbox == "Introduction":
         st.write(len(df))
 
 
-elif add_selectbox == "Factors for Career satisfaction/dis-satisfaction":
-    st.header("Factors for Career satisfaction/dis-satisfaction")
+elif add_selectbox == "Today to Tomorrow":
+    st.header("Today to Tomorrow")
+    st.subheader(
+        "Your satisfaction with your job today defines your actions for tomorrow."
+    )
+    st.write("We tried to explore this idea within the data.")
+    # st.write(
+    #     "This is a two way interactive graph through which the user can see how many respondents are satisfied/dissatisfied for a particular reason and vice-versa"
+    # )
     st.write(
-        "This is a two way interactive graph through which the user can see how many respondents are satisfied/dissatisfied for a particular reason and vice-versa"
+        "Try clicking through both plots to see how developers' 5-Year plans are affected by job satisfaction."
     )
 
     hope_brush = alt.selection_multi(fields=["HopeFiveYears1"])
     career_brush = alt.selection_multi(fields=["CareerSatisfaction"])
 
-    new_df = df[~df["HopeFiveYears1"].isna() & ~df["CareerSatisfaction"].isna()]
+    new_df = get_new_df(df)
 
     hope_chart = (
-        alt.Chart(new_df[:50000])
+        alt.Chart(new_df.sample(10000, random_state=1))
         .transform_filter(career_brush)
         .mark_bar()
         .encode(
-            x="count()",
-            y="HopeFiveYears1",
+            x=alt.X("count()", title="Number of respondents"),
+            y=alt.Y("HopeFiveYears1", title="5-Year Plan"),
             color=alt.condition(
                 hope_brush, alt.value("steelblue"), alt.value("lightgray")
             ),
         )
         .add_selection(hope_brush)
+        .properties(width=750, height=300)
     )
 
     career_chart = (
-        alt.Chart(df[:10000])
+        alt.Chart(new_df.sample(10000, random_state=1))
         .transform_filter(hope_brush)
         .mark_bar()
         .encode(
-            x="count()",
-            y="CareerSatisfaction",
+            x=alt.X("count()", title="Number of respondents"),
+            y=alt.Y("CareerSatisfaction", title="Career Satisfaction"),
             tooltip="count()",
             color=alt.condition(
                 career_brush, alt.value("salmon"), alt.value("lightgray")
             ),
         )
         .add_selection(career_brush)
+        .properties(width=750, height=300)
     )
 
     st.altair_chart(hope_chart & career_chart)
