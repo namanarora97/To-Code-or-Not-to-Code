@@ -58,12 +58,18 @@ def load_mlb():
 def get_hist_df(df, Country, Salary=120000):
     df_ = df[
         (
-            (df["Country"] == "United States")
+            (df["Country"] == Country)
             & (~df["ConvertedSalary"].isna())
-            & (df["ConvertedSalary"] > 0)
+            & (df["ConvertedSalary"] > 100)
         )
     ][["ConvertedSalary"]]
-    return df_
+    bins = list(range(0, 410000, 10000)) + [df_.ConvertedSalary.max()]
+    df_["SalaryRange"] = pd.cut(df_["ConvertedSalary"], bins=bins, right=True)
+    df_["SalaryBin"] = df_["SalaryRange"].apply(lambda x: int(x.left)).astype(int)
+    yourbin = pd.cut([Salary], bins, right=True)[0]
+    df_["YourSalary"] = df_["SalaryRange"].apply(lambda x: x == yourbin)
+    df_["YourSalary"] = df_["YourSalary"].apply(lambda x: "You" if x else "Others")
+    return df_[["SalaryBin", "YourSalary"]]
 
 
 @st.experimental_singleton
@@ -930,20 +936,20 @@ elif add_selectbox == "Predict Salary":
             prediction = round(pipe.predict(df)[0])
 
             standing = (
-                alt.Chart(get_hist_df(load_data(), "United States"))
-                .mark_bar()
+                alt.Chart(get_hist_df(load_data(), "United States", 120000))
+                .mark_bar(size=18)
                 .encode(
                     x=alt.X(
-                        "ConvertedSalary:Q",
-                        bin=alt.Bin(extent=[-0, 400000], step=10000),
+                        "SalaryBin:O", sort="ascending", title="Salary Range ($/year)"
                     ),
-                    y=alt.Y("count()", title="Count"),
+                    y=alt.Y("count()", title="Number of Respondents"),
+                    color=alt.Color("YourSalary", legend=alt.Legend(title="Salary")),
                 )
-                .properties(width=900, height=500)
+                .properties(width=1400, height=600)
             )
 
-            st.subheader("Your predicted salary is: $" + str(prediction))
-            st.subheader("The distribution in your country looks like this : ")
+            st.subheader("Your predicted annual salary is: $" + str(prediction))
+            st.subheader("Let's take a look at how you rank. ")
             st.altair_chart(standing)
 
         ###########################################
