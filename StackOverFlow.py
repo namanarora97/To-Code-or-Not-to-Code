@@ -25,6 +25,21 @@ st.set_page_config(
     # initial_sidebar_state="expanded",
 )
 
+st.markdown(
+    """
+    <style>
+    [data-testid="stSidebar"][aria-expanded="true"] > div:first-child {
+        width: 250px;
+    }
+    [data-testid="stSidebar"][aria-expanded="false"] > div:first-child {
+        width: 250px;
+        margin-left: -500px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 # Referenced: https://docs.streamlit.io/library/api-reference/layout/st.sidebar
 add_selectbox = st.sidebar.radio(
     "To code or Not to code",
@@ -35,7 +50,7 @@ add_selectbox = st.sidebar.radio(
         "Today to Tomorrow",  # Somya's
         "Measure Success!",  # Nate's model
         "Predict Salary",  # Naman's Model
-        "Data Demographics", #Nate's Demographics
+        "Data Demographics",  # Nate's Demographics
     ),
 )
 
@@ -799,37 +814,85 @@ elif add_selectbox == "Predict Salary":
         ###########################################
 elif add_selectbox == "Data Demographics":
     ###########################################
-    tempData = df[["Respondent", "RaceEthnicity2", "ConvertedSalary", "Country", "EducationParents", "Gender2"
-    , "SexualOrientation2", "Age", "FormalEducation", "CompanySize", "UndergradMajor", "Student", "Employment"
-               , "YearsCoding", "CareerSatisfaction"]].copy()
+    tempData = df[
+        [
+            "Respondent",
+            "RaceEthnicity2",
+            "ConvertedSalary",
+            "Country",
+            "EducationParents",
+            "Gender2",
+            "SexualOrientation2",
+            "Age",
+            "FormalEducation",
+            "CompanySize",
+            "UndergradMajor",
+            "Student",
+            "Employment",
+            "YearsCoding",
+            "CareerSatisfaction",
+        ]
+    ].copy()
 
-    base2 = alt.Chart().mark_circle(opacity=0.7, tooltip=True).encode(
-        size=alt.Size("count(Respondents):O", legend=None, scale=alt.Scale(domain=(0, 5000))),
-        color=alt.Color("median(ConvertedSalary):Q", scale=alt.Scale(domain=(0, 100000)))
-    ).properties(
-         width=100,
-         height=175
+    base2 = (
+        alt.Chart()
+        .mark_circle(opacity=0.7, tooltip=True)
+        .encode(
+            size=alt.Size(
+                "count(Respondents):O", legend=None, scale=alt.Scale(domain=(0, 5000))
+            ),
+            color=alt.Color(
+                "median(ConvertedSalary):Q", scale=alt.Scale(domain=(0, 100000))
+            ),
+        )
+        .properties(width=100, height=175)
     )
 
     desiredColumns0 = ["Gender2", "SexualOrientation2"]
-    desiredColumns = [["FormalEducation", "RaceEthnicity2", "Student", "Employment", "Age"], \
-                      ["EducationParents", "CareerSatisfaction", "UndergradMajor", "CompanySize", "YearsCoding"]]
-
-
+    desiredColumns = [
+        ["FormalEducation", "RaceEthnicity2", "Student", "Employment", "Age"],
+        [
+            "EducationParents",
+            "CareerSatisfaction",
+            "UndergradMajor",
+            "CompanySize",
+            "YearsCoding",
+        ],
+    ]
 
     demoChart = alt.vconcat(data=tempData, title="Data Demographics")
     for i in range(2):
         row = alt.hconcat(spacing=55)
-        row |= base2.encode(y=alt.Y(desiredColumns0[i], axis=alt.Axis(labels=False, tickSize=0)))
+        row |= base2.encode(
+            y=alt.Y(desiredColumns0[i], axis=alt.Axis(labels=False, tickSize=0))
+        )
         for y_encoding in desiredColumns[i]:
-            row |= base2.encode(y=alt.Y(y_encoding, axis=alt.Axis(labels=False, tickSize=0)))
+            row |= base2.encode(
+                y=alt.Y(y_encoding, axis=alt.Axis(labels=False, tickSize=0))
+            )
         demoChart &= row
 
-    countryChart = alt.Chart(tempData).mark_circle(opacity=0.7, tooltip=True).encode(
-        x=alt.X("Country", stack=None, title="Country", axis=alt.Axis(labels=False, tickSize=0)),
-        size=alt.Size("count(Respondents):O", legend=None, scale=alt.Scale(domain=(0, 5000))),
-        color=alt.Color("median(ConvertedSalary):Q", legend=None, scale=alt.Scale(domain=(0, 100000)))
-    ).properties(width=1000, height=100)
+    countryChart = (
+        alt.Chart(tempData)
+        .mark_circle(opacity=0.7, tooltip=True)
+        .encode(
+            x=alt.X(
+                "Country",
+                stack=None,
+                title="Country",
+                axis=alt.Axis(labels=False, tickSize=0),
+            ),
+            size=alt.Size(
+                "count(Respondents):O", legend=None, scale=alt.Scale(domain=(0, 5000))
+            ),
+            color=alt.Color(
+                "median(ConvertedSalary):Q",
+                legend=None,
+                scale=alt.Scale(domain=(0, 100000)),
+            ),
+        )
+        .properties(width=1000, height=100)
+    )
 
     st.altair_chart(demoChart)
     st.altair_chart(countryChart)
