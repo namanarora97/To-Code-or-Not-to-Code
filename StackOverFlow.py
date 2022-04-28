@@ -179,7 +179,7 @@ elif add_selectbox == "Factors for Career satisfaction/dis-satisfaction":
      
 #######################################################################################################################################
 
-elif  "Predict Job satisfaction":
+elif  add_selectbox == "Predict Job satisfaction":
     # define dropdown
     st.header("Predict Job satisfaction according to your country and Salary")
 
