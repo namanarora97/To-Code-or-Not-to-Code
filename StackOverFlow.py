@@ -129,8 +129,6 @@ def clean_gender_col(gender):
 df["Gender"] = df["Gender"].apply(clean_gender_col)
 
 
-
-
 # define dropdown
 st.header("Predict Job satisfaction according to your country and Salary")
 
@@ -239,7 +237,11 @@ hist = (
     .transform_filter(picked)
     .mark_bar(color="Green", opacity=0.9)
     .encode(
-        alt.Y("value:N", sort=all_habits, title=("Chosen Value"),),
+        alt.Y(
+            "value:N",
+            sort=all_habits,
+            title=("Chosen Value"),
+        ),
         alt.X("median(ConvertedSalary)", title="Median Salary in USD/year"),
         color=alt.Color(
             "mean(JobSatisfactionQuant):Q",
@@ -255,6 +257,45 @@ hist = (
     .properties(width=800, height=500)
 )
 st.altair_chart(hist)
+#######################################################################
+st.header("Factors for Career satisfaction/dis-satisfaction")
+st.write(
+    "This is a two way interactive graph through which the user can see how many respondents are satisfied/dissatisfied for a particular reason and vice-versa"
+)
+
+
+hope_brush = alt.selection_multi(fields=["HopeFiveYears1"])
+career_brush = alt.selection_multi(fields=["CareerSatisfaction"])
+
+new_df = df[~df["HopeFiveYears1"].isna() & ~df["CareerSatisfaction"].isna()]
+
+hope_chart = (
+    alt.Chart(new_df[:50000])
+    .transform_filter(career_brush)
+    .mark_bar()
+    .encode(
+        x="count()",
+        y="HopeFiveYears1",
+        color=alt.condition(hope_brush, alt.value("steelblue"), alt.value("lightgray")),
+    )
+    .add_selection(hope_brush)
+)
+
+career_chart = (
+    alt.Chart(df[:10000])
+    .transform_filter(hope_brush)
+    .mark_bar()
+    .encode(
+        x="count()",
+        y="CareerSatisfaction",
+        tooltip="count()",
+        color=alt.condition(career_brush, alt.value("salmon"), alt.value("lightgray")),
+    )
+    .add_selection(career_brush)
+)
+
+st.altair_chart(hope_chart & career_chart)
+
 
 ###########################################
 selectedGender = st.multiselect(
@@ -286,4 +327,3 @@ slicedData = df[slice]
 
 
 ###########################################
-
