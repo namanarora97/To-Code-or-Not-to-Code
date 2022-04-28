@@ -11,6 +11,9 @@ import pandas as pd
 import numpy as np
 from MyBinarizer import MyBinarizer
 import joblib
+import urllib.request
+
+# import pickle
 
 
 # Referenced: https://docs.streamlit.io/library/api-reference/utilities/st.set_page_config
@@ -36,7 +39,11 @@ add_selectbox = st.sidebar.radio(
 
 # @st.cache(allow_output_mutation=True)
 def load_model():
-    return joblib.load("https://metashady.blob.core.windows.net/public/pipe_v2.pkl")
+    return joblib.load(
+        urllib.request.urlopen(
+            "https://metashady.blob.core.windows.net/public/pipe_v2.pkl"
+        )
+    )
 
 
 # @st.cache(allow_output_mutation=True)
