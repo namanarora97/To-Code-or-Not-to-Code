@@ -105,6 +105,20 @@ st.write(
     "This dataset contains responses of 98,885 respondents who reported information ranging from their excercise habits to compensative levels"
 )
 
+#Referenced: https://docs.streamlit.io/library/api-reference/utilities/st.set_page_config
+st.set_page_config(
+     page_title="Factors that makes a programmer successful",
+     page_icon=":shark",
+     layout="centered",
+     initial_sidebar_state="expanded",
+ )
+
+#Referenced: https://docs.streamlit.io/library/api-reference/layout/st.sidebar
+add_selectbox = st.sidebar.selectbox(
+    "To code or Not to code",
+    ("Introduction","Predict Job satisfaction", "Personal Habits", "Factors for Career satisfaction/dis-satisfaction" , "Model for predicting salary")
+)
+
 
 # 2. Data Loading
 
