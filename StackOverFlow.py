@@ -705,7 +705,6 @@ elif add_selectbox == "Predict Salary":
                 ["Yes", "No"],
                 0,
             )
-
         with col2:
             LanguageWorkedWith = st.multiselect(
                 "Languages you have worked with",
@@ -824,7 +823,6 @@ elif add_selectbox == "Predict Salary":
                 ],
                 5,
             )
-
         with col4:
             DevType = st.multiselect(
                 "What type of developer(s) are you?",
@@ -919,6 +917,18 @@ elif add_selectbox == "Predict Salary":
 
             prediction = round(pipe.predict(df)[0])
 
+            standing = (
+                alt.Chart(df[df["Country"] == Country]["ConvertedSalary"])
+                .mark_bar()
+                .encode(
+                    x=alt.X("ConvertedSalary", bin=True),
+                    y=alt.Y("count()", title="Count"),
+                )
+                .properties(width=500, height=300)
+            )
+
             st.subheader("Your predicted salary is: $" + str(prediction))
+            st.subheader("Your standing looks something like this: ")
+            st.altair_chart(standing)
 
         ###########################################
