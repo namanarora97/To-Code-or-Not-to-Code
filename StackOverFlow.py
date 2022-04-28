@@ -531,71 +531,6 @@ elif add_selectbox == "Predict Salary":
                 ],
                 index=1,
             )
-
-            LanguageWorkedWith = st.multiselect(
-                "Languages you have worked with",
-                [
-                    "Assembly",
-                    "Bash/Shell",
-                    "C",
-                    "C#",
-                    "C++",
-                    "CSS",
-                    "Clojure",
-                    "Cobol",
-                    "CoffeeScript",
-                    "Delphi/Object Pascal",
-                    "Erlang",
-                    "F#",
-                    "Go",
-                    "Groovy",
-                    "HTML",
-                    "Hack",
-                    "Haskell",
-                    "Java",
-                    "JavaScript",
-                    "Julia",
-                    "Kotlin",
-                    "Lua",
-                    "Matlab",
-                    "Objective-C",
-                    "Ocaml",
-                    "PHP",
-                    "Perl",
-                    "Python",
-                    "R",
-                    "Ruby",
-                    "Rust",
-                    "SQL",
-                    "Scala",
-                    "Swift",
-                    "TypeScript",
-                    "VB.NET",
-                    "VBA",
-                    "Visual Basic 6",
-                ],
-            )
-
-            FrameworkWorkedWith = st.multiselect(
-                "Frameworks you have worked with",
-                [
-                    ".NET Core",
-                    "Angular",
-                    "Cordova",
-                    "Django",
-                    "Hadoop",
-                    "Node.js",
-                    "None",
-                    "React",
-                    "Spark",
-                    "Spring",
-                    "TensorFlow",
-                    "Torch/PyTorch",
-                    "Xamarin",
-                ],
-            )
-
-        with col2:
             Country = st.selectbox(
                 "Country",
                 [
@@ -755,18 +690,86 @@ elif add_selectbox == "Predict Salary":
                     "Yemen",
                     "Zimbabwe",
                 ],
+                148,
             )
-
+            Gender2 = st.selectbox(
+                "Select your Gender", ["Female", "Male", "Non-Binary"], 1
+            )
             Hobby = st.selectbox(
                 "Do you code as a hobby?",
                 ["Yes", "No"],
+                0,
             )
-
             OpenSource = st.selectbox(
                 "Do you contribute to open source projects?",
                 ["Yes", "No"],
+                0,
             )
 
+        with col2:
+            LanguageWorkedWith = st.multiselect(
+                "Languages you have worked with",
+                [
+                    "Assembly",
+                    "Bash/Shell",
+                    "C",
+                    "C#",
+                    "C++",
+                    "CSS",
+                    "Clojure",
+                    "Cobol",
+                    "CoffeeScript",
+                    "Delphi/Object Pascal",
+                    "Erlang",
+                    "F#",
+                    "Go",
+                    "Groovy",
+                    "HTML",
+                    "Hack",
+                    "Haskell",
+                    "Java",
+                    "JavaScript",
+                    "Julia",
+                    "Kotlin",
+                    "Lua",
+                    "Matlab",
+                    "Objective-C",
+                    "Ocaml",
+                    "PHP",
+                    "Perl",
+                    "Python",
+                    "R",
+                    "Ruby",
+                    "Rust",
+                    "SQL",
+                    "Scala",
+                    "Swift",
+                    "TypeScript",
+                    "VB.NET",
+                    "VBA",
+                    "Visual Basic 6",
+                ],
+                default=["C", "C#", "C++", "JavaScript", "Python", "Ruby", "Java"],
+            )
+            FrameworkWorkedWith = st.multiselect(
+                "Frameworks you have worked with",
+                [
+                    ".NET Core",
+                    "Angular",
+                    "Cordova",
+                    "Django",
+                    "Hadoop",
+                    "Node.js",
+                    "None",
+                    "React",
+                    "Spark",
+                    "Spring",
+                    "TensorFlow",
+                    "Torch/PyTorch",
+                    "Xamarin",
+                ],
+                default=["Angular", "React", "Spark", "TensorFlow", "Torch/PyTorch"],
+            )
         with col3:
             FormalEducation = st.selectbox(
                 "Please provide your highest level of formal education",
@@ -781,6 +784,7 @@ elif add_selectbox == "Predict Salary":
                     "Professional degree (JD, MD, etc.)",
                     "Some college",
                 ],
+                1,
             )
 
             UndergradMajor = st.selectbox(
@@ -801,22 +805,24 @@ elif add_selectbox == "Predict Salary":
                     "Undeclared",
                     "Web Design",
                 ],
+                1,
             )
 
             CompanySize = st.selectbox(
                 "Please select your previous/current company size",
                 [
-                    "0 to 1 Employees",
-                    "1,000 to 4,999 employees",
-                    "10 to 19 employees",
-                    "10,000 or more employees",
-                    "100 to 499 employees",
-                    "20 to 99 employees",
-                    "5,000 to 9,999 employees",
-                    "500 to 999 employees",
-                    "Fewer than 10 employees",
                     "Not Applicable",
+                    "0 to 1 Employees",
+                    "Fewer than 10 employees",
+                    "10 to 19 employees",
+                    "20 to 99 employees",
+                    "100 to 499 employees",
+                    "500 to 999 employees",
+                    "1,000 to 4,999 employees",
+                    "5,000 to 9,999 employees",
+                    "10,000 or more employees",
                 ],
+                5,
             )
 
         with col4:
@@ -844,39 +850,42 @@ elif add_selectbox == "Predict Salary":
                     "Student",
                     "System administrator",
                 ],
+                default=[
+                    "Back-end developer",
+                    "Data scientist or machine learning specialist",
+                    "Front-end developer",
+                    "Full-stack developer",
+                ],
             )
 
             YearsCodingProf = st.selectbox(
                 "How many years have you been a professional developer?",
                 [
                     "0-2 years",
+                    "3-5 years",
+                    "6-8 years",
+                    "9-11 years",
                     "12-14 years",
                     "15-17 years",
                     "18-20 years",
                     "21-23 years",
                     "24-26 years",
                     "27-29 years",
-                    "3-5 years",
                     "30 or more years",
-                    "6-8 years",
-                    "9-11 years",
                 ],
+                1,
             )
 
             Employment = st.selectbox(
                 "What is your current employment status?",
                 [
+                    "full-time",
+                    "part-time",
                     "Independent contractor, freelancer, or self-employed",
                     "Not employed, and not looking for work",
                     "Not employed, but looking for work",
                     "Retired",
-                    "full-time",
-                    "part-time",
                 ],
-            )
-
-            Gender2 = st.selectbox(
-                "Select your Gender", ["Female", "Male", "Non-Binary"]
             )
 
         submitted = st.form_submit_button("Submit")
