@@ -392,7 +392,7 @@ with st.form("Prediction"):
     if submitted:
         # st.experimental_rerun()
         pipe = load_model()
-        mlb = load_mlb()
+        # mlb = load_mlb()
 
         df = pd.DataFrame()
         df = df.append(
