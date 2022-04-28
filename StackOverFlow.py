@@ -30,8 +30,8 @@ add_selectbox = st.sidebar.radio(
     "To code or Not to code",
     (
         "Introduction",  # Welcome screen
+        "Breaking the Habit",  # Ruhi's habits
         "Predict Job satisfaction",  # Somya's Country...
-        "Personal Habits",  # Ruhi's habits
         "Today to Tomorrow",  # Somya's
         "Measure Success!",  # Nate's model
         "Predict Salary",  # Naman's Model
@@ -237,22 +237,22 @@ elif add_selectbox == "Predict Job satisfaction":
     # define dropdown
     st.header("Predict Job satisfaction according to your country and Salary")
 
-    st.subheader("Slider")
+    st.subheader("Slide to select a Salary")
     slider = st.slider(
-        label="Salary", min_value=0, max_value=200000, step=1000, value=5000
+        label="Salary", min_value=0, max_value=200000, step=1000, value=80000
     )
-    st.write("Slider Value: ", slider)
+    st.write("Selected Value: ", slider)
 
-    country_selectbox = st.selectbox("Country", df["Country"].unique())
-    st.write("Dropdown Value: ", country_selectbox)
+    country_selectbox = st.selectbox("Country", df["Country"].unique(), 1)
+    st.write("Selected Coutry: ", country_selectbox)
 
     prediction, new_df_4 = get_job_satisfaction_df(df, country_selectbox, slider)
 
     mychart = (
         alt.Chart(new_df_4)
-        .mark_bar(color="red", width=30)
-        .encode(alt.X("JobSatisfaction"), alt.Y("Proportion"), tooltip="Proportion")
-        .properties(width=500, height=500)
+        .mark_bar(color="steelblue")
+        .encode(alt.X("Proportion"), alt.Y("JobSatisfaction"), tooltip="Proportion")
+        .properties(width=800, height=500)
     )
 
     st.write(mychart)
@@ -266,8 +266,8 @@ elif add_selectbox == "Predict Job satisfaction":
         + country_selectbox
     )
 
-elif add_selectbox == "Personal Habits":
-    # Personal Habits visualization
+elif add_selectbox == "Breaking the Habit":
+    # Breaking the Habit visualization
     # Exercising
     dict2 = {
         """I don't typically exercise""": """01 I don't typically exercise""",
