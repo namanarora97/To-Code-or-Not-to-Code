@@ -36,7 +36,7 @@ add_selectbox = st.sidebar.radio(
 
 # @st.cache(allow_output_mutation=True)
 def load_model():
-    return joblib.load("pipe_v2.pkl")
+    return joblib.load("https://metashady.blob.core.windows.net/public/pipe_v2.pkl")
 
 
 # @st.cache(allow_output_mutation=True)
