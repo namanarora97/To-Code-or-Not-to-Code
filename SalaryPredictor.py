@@ -12,12 +12,12 @@ from MyBinarizer import MyBinarizer
 import joblib
 
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def load_model():
     return joblib.load("pipe_v2.pkl")
 
 
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def load_mlb():
     return joblib.load("mlb.pkl")
 
@@ -387,10 +387,12 @@ with st.form("Prediction"):
     submitted = st.form_submit_button("Submit")
 
     if submitted:
+        # st.experimental_rerun()
         pipe = load_model()
         mlb = load_mlb()
 
-        df = pd.DataFrame(
+        df = pd.DataFrame()
+        df = df.append(
             {
                 "Age": Age,
                 "LanguageWorkedWith": LanguageWorkedWith,
@@ -405,11 +407,12 @@ with st.form("Prediction"):
                 "Employment": Employment,
                 "Gender2": Gender2,
                 "CompanySize": CompanySize,
-            }
+            },
+            ignore_index=True,
         )
 
-        st.dataframe(df)
+        # st.dataframe(df)
 
-        prediction = pipe.predict(df)
+        prediction = round(pipe.predict(df)[0])
 
-        st.write(prediction)
+        st.subheader("Your predicted salary is: $" + str(prediction))
