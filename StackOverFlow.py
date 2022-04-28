@@ -108,8 +108,8 @@ st.write(
 #Referenced: https://docs.streamlit.io/library/api-reference/utilities/st.set_page_config
 st.set_page_config(
      page_title="Factors that makes a programmer successful",
-     page_icon=":shark",
-     layout="centered",
+     page_icon=":shark"
+     #layout="centered",
      #initial_sidebar_state="expanded",
  )
 
