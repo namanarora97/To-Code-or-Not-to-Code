@@ -18,6 +18,12 @@ st.set_page_config(
      #initial_sidebar_state="expanded",
  )
 
+#Referenced: https://docs.streamlit.io/library/api-reference/layout/st.sidebar
+add_selectbox = st.sidebar.selectbox(
+    "To code or Not to code",
+    ("Introduction","Predict Job satisfaction", "Personal Habits", "Factors for Career satisfaction/dis-satisfaction" , "Model for predicting salary")
+)
+
 @st.experimental_singleton
 @st.cache
 def load_data():
@@ -108,27 +114,59 @@ alt.data_transformers.enable("default", max_rows=None)
 st.title("To Code or Not to Code?")
 st.subheader("Team Zebra")
 
-st.write(
-    "This dataset contains responses of 98,885 respondents who reported information ranging from their excercise habits to compensative levels"
-)
+if add_selectbox == "Introduction":
+     st.write(
+     "This dataset contains responses of 98,885 respondents who reported information ranging from their excercise habits to compensative levels"
+     )
+     
+     # 2. Data Loading
+
+     with st.spinner(text="Loading data..."):
+         df = load_data()
+         st.text("Visualize the overall dataset and some distributions here...")
+         if st.checkbox("Show Table"):
+             st.write(df.head(20))
+             st.write(len(df))
+          
+ elif add_selectbox == "Factors for Career satisfaction/dis-satisfaction":  
+     st.header("Factors for Career satisfaction/dis-satisfaction")
+     st.write(
+         "This is a two way interactive graph through which the user can see how many respondents are satisfied/dissatisfied for a particular reason and vice-versa"
+     )
 
 
+     hope_brush = alt.selection_multi(fields=["HopeFiveYears1"])
+     career_brush = alt.selection_multi(fields=["CareerSatisfaction"])
 
-#Referenced: https://docs.streamlit.io/library/api-reference/layout/st.sidebar
-add_selectbox = st.sidebar.selectbox(
-    "To code or Not to code",
-    ("Introduction","Predict Job satisfaction", "Personal Habits", "Factors for Career satisfaction/dis-satisfaction" , "Model for predicting salary")
-)
+     new_df = df[~df["HopeFiveYears1"].isna() & ~df["CareerSatisfaction"].isna()]
 
+     hope_chart = (
+         alt.Chart(new_df[:50000])
+         .transform_filter(career_brush)
+         .mark_bar()
+         .encode(
+             x="count()",
+             y="HopeFiveYears1",
+             color=alt.condition(hope_brush, alt.value("steelblue"), alt.value("lightgray")),
+         )
+         .add_selection(hope_brush)
+     )
 
-# 2. Data Loading
+     career_chart = (
+         alt.Chart(df[:10000])
+         .transform_filter(hope_brush)
+         .mark_bar()
+         .encode(
+             x="count()",
+             y="CareerSatisfaction",
+             tooltip="count()",
+             color=alt.condition(career_brush, alt.value("salmon"), alt.value("lightgray")),
+         )
+         .add_selection(career_brush)
+     )
 
-with st.spinner(text="Loading data..."):
-    df = load_data()
-    st.text("Visualize the overall dataset and some distributions here...")
-    if st.checkbox("Show Table"):
-        st.write(df.head(20))
-        st.write(len(df))
+     st.altair_chart(hope_chart & career_chart)
+   
 
 
 # 3. Graph1: Demographics
@@ -273,43 +311,7 @@ hist = (
 )
 st.altair_chart(hist)
 #######################################################################
-st.header("Factors for Career satisfaction/dis-satisfaction")
-st.write(
-    "This is a two way interactive graph through which the user can see how many respondents are satisfied/dissatisfied for a particular reason and vice-versa"
-)
 
-
-hope_brush = alt.selection_multi(fields=["HopeFiveYears1"])
-career_brush = alt.selection_multi(fields=["CareerSatisfaction"])
-
-new_df = df[~df["HopeFiveYears1"].isna() & ~df["CareerSatisfaction"].isna()]
-
-hope_chart = (
-    alt.Chart(new_df[:50000])
-    .transform_filter(career_brush)
-    .mark_bar()
-    .encode(
-        x="count()",
-        y="HopeFiveYears1",
-        color=alt.condition(hope_brush, alt.value("steelblue"), alt.value("lightgray")),
-    )
-    .add_selection(hope_brush)
-)
-
-career_chart = (
-    alt.Chart(df[:10000])
-    .transform_filter(hope_brush)
-    .mark_bar()
-    .encode(
-        x="count()",
-        y="CareerSatisfaction",
-        tooltip="count()",
-        color=alt.condition(career_brush, alt.value("salmon"), alt.value("lightgray")),
-    )
-    .add_selection(career_brush)
-)
-
-st.altair_chart(hope_chart & career_chart)
 
 
 ###########################################
