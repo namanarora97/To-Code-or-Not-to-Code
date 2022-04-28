@@ -45,10 +45,10 @@ add_selectbox = st.sidebar.radio(
     "To code or Not to code",
     (
         "Introduction",  # Welcome screen
+        "Measure Success!",  # Nate's model
         "Breaking the Habit",  # Ruhi's habits
         "Predict Job satisfaction",  # Somya's Country...
         "Today to Tomorrow",  # Somya's
-        "Measure Success!",  # Nate's model
         "Predict Salary",  # Naman's Model
         "Data Demographics",  # Nate's Demographics
     ),
