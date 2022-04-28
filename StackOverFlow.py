@@ -10,6 +10,13 @@ import altair as alt
 import pandas as pd
 import numpy as np
 
+#Referenced: https://docs.streamlit.io/library/api-reference/utilities/st.set_page_config
+st.set_page_config(
+     page_title="Factors that makes a programmer successful",
+     page_icon=":shark"
+     #layout="centered",
+     #initial_sidebar_state="expanded",
+ )
 
 @st.experimental_singleton
 @st.cache
@@ -105,13 +112,7 @@ st.write(
     "This dataset contains responses of 98,885 respondents who reported information ranging from their excercise habits to compensative levels"
 )
 
-#Referenced: https://docs.streamlit.io/library/api-reference/utilities/st.set_page_config
-st.set_page_config(
-     page_title="Factors that makes a programmer successful",
-     page_icon=":shark"
-     #layout="centered",
-     #initial_sidebar_state="expanded",
- )
+
 
 #Referenced: https://docs.streamlit.io/library/api-reference/layout/st.sidebar
 add_selectbox = st.sidebar.selectbox(
