@@ -19,15 +19,29 @@ Below is a screenshot of the homepage of the application:
 
 ![homepage](assets/zebra-homepage.png)
 
+## Write-up
+
+You can access the write-up here: [writeup.md](writeup.md)
+
+## Video
+
+You can access the video here: [YouTube]()
+
 ## Setup
 The app can be directly accessed from the hyperlink available above. If needed to run locally, you can do so by cloning the repository on your system and then within the directory use the following command: 
 ```
 streamlit run StackOverFlow.py
 ```
 
-## Work distribution
+The dataset is larger than what GitHub supports. Hence, it is hosted on an Azure blob. The URLs for various model files (packaged using pickled) and cleaned dataframes can be accessed within the scripts. 
+
+The ML model training script (post data cleaning) can be found in ```TrainModel.py```
+
+## Work distribution and Process Flow
 
 All of our work was fairly equally distributed. We worked on the cleaning process in collaboration, and used DeepNote to work together and collaborate on a live shared Python notebook. Each team member had roughly the same contribution to the cleaning process, which was a huge task in itself because the data was extremly dirty.  
 
 After cleaning, we decided to realise the ideas we had conceptualized during the sketching phase. Nate worked on the "Measure Success" and the "Demographics Explorer" dashboards. Naman worked towards further cleaning of the data and later used it to train the Random Forest regressor for salary prediction. Ruhi came with the novel idea of explorng how habits affect other quanitifiable parameters and worked on it in entirety. Somya handled the Job Satisfaction prediciton and Today to Tomorrow dashboards. 
+
+Our process was centered around attempting to create modular code, so we could collaborate effectively. We were able to develop a final application with separation of concerns (multiple dashboards were implemented using radio buttons on the sidebar) while still making use of the same streamlit cache and data cleaning functions. This reduces the overall workload on both the team members and servers!
 
