@@ -31,5 +31,3 @@ All of our work was fairly equally distributed. We worked on the cleaning proces
 
 After cleaning, we decided to realise the ideas we had conceptualized during the sketching phase. Nate worked on the "Measure Success" and the "Demographics Explorer" dashboards. Naman worked towards further cleaning of the data and later used it to train the Random Forest regressor for salary prediction. Ruhi came with the novel idea of explorng how habits affect other quanitifiable parameters and worked on it in entirety. Somya handled the Job Satisfaction prediciton and Today to Tomorrow dashboards. 
 
-
-
