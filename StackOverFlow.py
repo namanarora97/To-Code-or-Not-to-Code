@@ -100,17 +100,6 @@ def clean_gender_col(gender):
 
 df["Gender"] = df["Gender"].apply(clean_gender_col)
 
-dict = {
-    "Extremely dissatisfied": "01 Extremely dissatisfied",
-    "Moderately dissatisfied": "02 Moderately dissatisfied",
-    "Slightly dissatisfied": "03 Slightly  dissatisfied",
-    "Neither satisfied nor dissatisfied": "04 Neither satisfied nor dissatisfied",
-    "Slightly satisfied": "05 Slightly satisfied",
-    "Moderately satisfied": "06 Moderately satisfied",
-    "Extremely satisfied": "07 Extremely satisfied",
-}
-
-
 # Personal Habits visualization
 # Exercising
 dict2 = {
@@ -217,7 +206,7 @@ new_df_4 = new_df_4.sort_values(by="Proportion", ascending=False).reset_index(dr
 
 js_all = new_df[["JobSatisfaction"]].drop_duplicates()
 
-prediction = new_df_4["JobSatisfaction"].values[0][3:]
+prediction = new_df_4["JobSatisfaction"].values[0]
 
 new_df_4 = pd.merge(new_df_4, js_all, on="JobSatisfaction", how="right").fillna(0)
 
