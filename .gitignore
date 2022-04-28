@@ -5,6 +5,12 @@ data/
 # Local files
 test_na.ipynb
 
+# Pickles
+*.pkl
+
+# env
+new/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
