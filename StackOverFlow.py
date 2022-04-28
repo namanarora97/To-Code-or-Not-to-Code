@@ -25,6 +25,7 @@ st.set_page_config(
     # initial_sidebar_state="expanded",
 )
 
+# This text is used to resize the sidebar
 st.markdown(
     """
     <style>
