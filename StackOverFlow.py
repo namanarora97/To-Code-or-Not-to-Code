@@ -54,6 +54,18 @@ def load_mlb():
     pass
 
 
+@st.cache
+def get_hist_df(df, Country, Salary=120000):
+    df_ = df[
+        (
+            (df["Country"] == "United States")
+            & (~df["ConvertedSalary"].isna())
+            & (df["ConvertedSalary"] > 0)
+        )
+    ][["ConvertedSalary"]]
+    return df_
+
+
 @st.experimental_singleton
 @st.cache
 def load_data():
@@ -918,17 +930,20 @@ elif add_selectbox == "Predict Salary":
             prediction = round(pipe.predict(df)[0])
 
             standing = (
-                alt.Chart(df[df["Country"] == Country]["ConvertedSalary"])
+                alt.Chart(get_hist_df(load_data(), "United States"))
                 .mark_bar()
                 .encode(
-                    x=alt.X("ConvertedSalary", bin=True),
+                    x=alt.X(
+                        "ConvertedSalary:Q",
+                        bin=alt.Bin(extent=[-0, 400000], step=10000),
+                    ),
                     y=alt.Y("count()", title="Count"),
                 )
-                .properties(width=500, height=300)
+                .properties(width=900, height=500)
             )
 
             st.subheader("Your predicted salary is: $" + str(prediction))
-            st.subheader("Your standing looks something like this: ")
+            st.subheader("The distribution in your country looks like this : ")
             st.altair_chart(standing)
 
         ###########################################
