@@ -159,11 +159,14 @@ df["Gender"] = df["Gender"].apply(clean_gender_col)
 if add_selectbox == "Introduction":
     st.title("To Code or Not to Code?")
     st.subheader("Team Zebra")
+    st.image("survey-logo.png")
     st.write(
-        "This dataset contains responses of 98,885 respondents who reported information ranging from their excercise habits to compensative levels"
+        "The dataset contains responses of 98,885 respondents who reported information ranging from their excercise habits to compensative levels"
     )
-    st.text("Visualize the overall dataset and some distributions here...")
-    if st.checkbox("Show Table"):
+    st.write("We analyzed the data to find factors that make a programmer successful.")
+    st.subheader("Use the sidebar to explore the data")
+    # st.text("Visualize the overall dataset and some distributions here...")
+    if st.checkbox("View a sample of the dataset"):
         st.write(df.head(20))
         st.write(len(df))
 
