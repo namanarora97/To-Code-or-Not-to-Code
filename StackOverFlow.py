@@ -936,7 +936,7 @@ elif add_selectbox == "Predict Salary":
             prediction = round(pipe.predict(df)[0])
 
             standing = (
-                alt.Chart(get_hist_df(load_data(), "United States", 120000))
+                alt.Chart(get_hist_df(load_data(), "United States", prediction))
                 .mark_bar(size=18)
                 .encode(
                     x=alt.X(
