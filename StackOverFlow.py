@@ -37,7 +37,8 @@ add_selectbox = st.sidebar.radio(
     ),
 )
 
-# @st.cache(allow_output_mutation=True)
+
+@st.cache(allow_output_mutation=True)
 def load_model():
     return joblib.load(
         urllib.request.urlopen(
@@ -48,7 +49,8 @@ def load_model():
 
 # @st.cache(allow_output_mutation=True)
 def load_mlb():
-    return joblib.load("mlb.pkl")
+    # return joblib.load("mlb.pkl")
+    pass
 
 
 @st.experimental_singleton
