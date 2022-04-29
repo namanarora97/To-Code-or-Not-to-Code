@@ -21,7 +21,7 @@ Below is a screenshot of the homepage of the application:
 
 ## Write-up
 
-You can access the write-up here: [writeup.md](writeup.md)
+You can access the write-up here: [Report.md](Report.md)
 
 ## Video
 
