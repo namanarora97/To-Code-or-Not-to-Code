@@ -95,12 +95,12 @@ A design decision was also taken at this point. Just displaying a value of the p
 ## **Structure**
 
 To make the narrative cohesive, and prevent information overload for the user, we decided to split our visuals into five different screens. We made use of radio buttons on the streamlit sidebar to achieve this, and it allowed the user to select which information they wanted to explore and interact with. This aided in providing structure to our application.
-
+![home](assets/zebra-homepage.png)
 
 ## **Measure Success**
 
 Some very interesting insights have come out of this dashboard. And the good thing about this one is, the more you explore it according to your own interests, the more it might just keep on giving. We would like to highlight some of the key findings that we’ve come across during our exploration of the data using this dashboard, but the window remains open for finding something novel with a different combination of the feature sets. 
-
+![success](assets/measure-success.png)
 
 ## **Breaking the Habit**
 
@@ -108,26 +108,26 @@ The dataset consisted of a lot of information around lifestyle habits followed b
 
 A similar observation was made from trends in exercising habits. The most satisfied and most money-making developers lie in the category of people who exercise 3-4 times per week. This drives home the point of making physical fitness a priority in the sedentary lifestyle of software developers. 
 
-
+![habit](assets/breaking-habit.png)
 ## **Predict Job Satisfaction**
 
 This plot helps a user understand just how much happiness would money really buy you in a particular country.We strategically used the country along with salary because we understand that cost of living can be different across countries.  We find that more money does not always lead to more satisfaction with jobs. The user can browse the trend through multiple countries and readily change the salary value using the slider to extract insights in this space. 
 
 As the values are updated, we observe that there’s actually no real relationship between money and satisfaction. Some users that earn a lot of money are still not satisfied, while there’s a fraction of users across all salary ranges that remain moderately satisfied. Thus, we can conclude that satisfaction is a very relative concept. What means satisfying to you might not be the definition of satisfaction for somebody else, even if they share the same job roles and pay. 
 
-
+![predsatis](assets/pred-job-satis.png)
 ## **Today to Tomorrow**
 
 Interactivity of this chart is a key point here. The idea highlighted is that the level of satisfaction of a developer’s job today directly affects where a developer sees themselves five years down the line.  
 
 If we look at the developers that say they are extremely dissatisfied with where they are in their careers, a majority of them see themselves as starting their own companies, closely followed by those wanting to move to a new technical role. This makes perfect sense and it is interesting to see that we could find something glaringly obvious being told precisely well by the data. 
-
+![todtom](assets/today-tom.png)
 
 ## **Salary Prediction**
 
 After playing around with the ML model we trained, we found that it was most responsive to skills and frameworks. So, we believe that this tool would be a great value-add for somebody who is just trying to find the next skill they should learn, and make sure that it would be worthy of their time. They can see just how much of a monetary impact it would make to have a new language or framework added to their current portfolio, and where it would rank them amongst their peers in the industry. 
 
-
+![salarypred](assets/pred-salary.png)
 # **Discussion**
 
 We set out on this project with the objective of making this rich dataset more accessible to the general public, and allow the novice or rookie tech enthusiast to get a glimpse into the industry. We were able to find some great analyses and correlations that come across from the plots we’ve chosen, and they tie back well to the original problem statement. Our objective was to find the answer to the question, “What makes a programmer successful?”. Our plots coherently stay tied to the main idea, consistently adding value and allowing the user to get nudged into realizing how each small, individual factor contributes to the success and satisfaction of a developer. 
@@ -136,6 +136,7 @@ Additionally, our focus and our design language was to maintain flexibility and 
 
 While the application we have developed produces some strong results and makes convincing arguments, it does come with an inherent bias that the data source has unfortunately brought with it. To highlight this bias and hence a limitation of our implementation, we created another dashboard titled “Data Demographics”. Here our motive was simply to understand exactly what kind of people have responded to the survey, and if our sample is truly representative of the original population. We find that there are certain groups of people that remain under-represented in our analyses. The respondents are predominantly white males (more than half), and about 30% of the respondents did not even share their gender. Thus, we decided not to include any analysis on gender within our application as the results might just end up being heavily skewed. On the other hand, this might just be indicative of the fact that women are in general outnumbered by men in the technology industry, which presents a broader problem in itself. 
 
+![discuss](assets/demographics.png)
 
 # **Future Work**
 
