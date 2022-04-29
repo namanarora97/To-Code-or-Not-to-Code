@@ -7,7 +7,7 @@
 [https://share.streamlit.io/cmu-ids-2022/final-project-zebra/main/StackOverFlow.py](https://share.streamlit.io/cmu-ids-2022/final-project-zebra/main/StackOverFlow.py)
 
 ### Video URL: 
-TODO
+[YouTube](https://youtu.be/Cxr6KGg0IkE)
 
 The IT industry has experienced exponential growth in the last decades. We feel that it is worthwhile to explore the contributing factors that would make a Software Developer successful. 
 

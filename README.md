@@ -19,13 +19,13 @@ Below is a screenshot of the homepage of the application:
 
 ![homepage](assets/zebra-homepage.png)
 
-## Write-up
+## Report
 
 You can access the write-up here: [Report.md](Report.md)
 
 ## Video
 
-You can access the video here: [YouTube]()
+You can access the video here: [YouTube](https://youtu.be/Cxr6KGg0IkE)
 
 ## Setup
 The app can be directly accessed from the hyperlink available above. If needed to run locally, you can do so by cloning the repository on your system and then within the directory use the following command: 
