@@ -454,32 +454,38 @@ elif add_selectbox == "Measure Success!":
 
     #################################################
     ###########################################
-    qualList = [
-        "LanguageWorkedWith",
-        "UndergradMajor",
-        "IDE",
-        "FormalEducation",
-        "DevType",
-        "HopeFiveYears1",
-        "PlatformWorkedWith",
-        "FrameworkWorkedWith",
-        "OperatingSystem",
-        "VersionControl",
-    ]
-    quantList = [
-        "ConvertedSalary",
-        "JobSatisfactionQuant",
-        "YearsCodingQuantSmall",
-        "CompanySizeQuantSmall",
-        "YearsCodingProfQuantSmall",
-        "NumberMonitors",
-    ]
+    qualList = ["LanguageWorkedWith", "UndergradMajor", "IDE", "FormalEducation", "DevType", "HopeFiveYears1",
+                "PlatformWorkedWith", "FrameworkWorkedWith", "OperatingSystem", "VersionControl"]
+    quantList = ["ConvertedSalary", "JobSatisfactionQuant", "YearsCodingQuantSmall",
+                 "CompanySizeQuantSmall", "NumberMonitors"]
+
+    quantListNice = ["Salary (USD)", "Job Satisfaction", "Years of Coding", "Company Size", "Monitor Count"]
+
+    qualListDict = {"LanguageWorkedWith":"Programming Languages", "UndergradMajor":"Undergrad Major", "IDE":"IDE",
+                    "FormalEducation":"Formal Education", "DevType":"Developer Type", "HopeFiveYears1":"Near-term Plans",
+                    "PlatformWorkedWith":"Platforms", "FrameworkWorkedWith":"Frameworks", "OperatingSystem":"Operating System",
+                    "VersionControl":"Version Control Utility", "CompanySizeQuantSmall":"Company Size"}
+
+    qualListNice = ["Programming Languages", "Undergrad Major", "IDE",
+                    "Formal Education", "Developer Type", "Near-term Plans",
+                    "Platforms", "Frameworks", "Operating System",
+                    "Version Control Utility"]
+
+    qualListDictReverse = {v: k for k, v in qualListDict.items()}
+
+    quantListDictReverse = dict(zip(quantListNice, quantList))
+    quantListDict = dict(zip(quantList, quantListNice))
+
+
+    quantList = ["ConvertedSalary", "JobSatisfactionQuant", "YearsCodingQuantSmall",
+                 "CompanySizeQuantSmall", "YearsCodingProfQuantSmall", "NumberMonitors"]
+
 
     quants = [quantList[5], quantList[3]]
     qual = qualList[1]
-    qual = st.selectbox("Select Category", qualList)
-    quants[0] = st.selectbox("Select primary measurement", quantList)
-    quants[1] = st.selectbox("Select secondary measurement", quantList)
+    qual = qualListDictReverse.get(st.selectbox("Select Category", qualListNice))
+    quants[0] = quantListDictReverse.get(st.selectbox("Select primary measurement", quantListNice))
+    quants[1] = quantListDictReverse.get(st.selectbox("Select secondary measurement", reversed(quantListNice)))
     # st.write(qual)
     # st.write(quants)
     #
@@ -489,55 +495,48 @@ elif add_selectbox == "Measure Success!":
     # print(quants)
     # print(qual)
 
+
     plotData = multiplePlotOHE(quantList, qual)
 
-    title = qual + " " + quants[0] + " and " + quants[1]
+    title = qualListDict.get(qual) + " measured by " + quantListDict.get(quants[0]) + " and " + quantListDict.get(quants[1])
     y = quants[0] + "Average:Q"
-    yTitle = "Average " + quants[0]
     color = quants[1] + "Average"
 
-    multi = alt.selection_multi(encodings=["x"], toggle="true", empty="none")
+    multi = alt.selection_multi(encodings=['x'], toggle="true", empty='none')
 
-    autoChart = (
-        alt.Chart(plotData, title=title)
-        .mark_bar(opacity=0.7, tooltip=True)
-        .encode(
-            y=alt.Y(qual, sort="x"), x=alt.X(y, stack=None, title=yTitle), color=color
-        )
-        .properties(width=800, height=500)
-        .add_selection(multi)
-        .encode(opacity=alt.condition(multi, alt.value(1), alt.value(0.4)))
+    autoChart = alt.Chart(plotData, title=title).mark_bar(opacity=0.7, tooltip=True).encode(
+        y=alt.Y(qual, sort='x', title=qualListDict.get(qual)),
+        x=alt.X(y, stack=None, title="Average " + quantListDict.get(quants[0])),
+        color=alt.Color(color, title="Average " + quantListDict.get(quants[1]))
+    ).properties(width=800, height=500
+    ).add_selection(
+        multi
+    ).encode(
+        opacity=alt.condition(multi, alt.value(1), alt.value(.4))
     )
 
-    base = (
-        alt.Chart()
-        .mark_bar(opacity=0.7, tooltip=True)
-        .encode()
-        .properties(width=240, height=100)
+    base = alt.Chart().mark_bar(opacity=0.7, tooltip=True).encode(
+
+    ).properties(
+         width=240,
+         height=100
     )
 
-    desiredColumns0 = [qual + "Counts", "CompanySizeQuantSmallAverage"]
-    desiredColumns = [
-        ["ConvertedSalaryAverage", "YearsCodingQuantSmallAverage"],
-        ["JobSatisfactionQuantAverage", "NumberMonitorsAverage"],
-    ]
-    modChart = alt.vconcat(data=plotData, title=qual)
+    desiredColumns0 = [qual+"Counts", "CompanySizeQuantSmallAverage"]
+    desiredColumns = [["ConvertedSalaryAverage", "YearsCodingQuantSmallAverage"], \
+                      ["JobSatisfactionQuantAverage", "NumberMonitorsAverage"]]
+    modChart = alt.vconcat(data=plotData, title=qualListDict.get(qual))
     for i in range(2):
         row = alt.hconcat()
-        row |= base.encode(
-            y=alt.Y(qual, title=" "),
-            x=desiredColumns0[i] + ":Q",
-            tooltip=desiredColumns0[i] + ":Q",
-        )
+        row |= base.encode(y=alt.Y(qual, title=" "), x=alt.X(desiredColumns0[i] + ":Q", title=qualListDict.get(desiredColumns0[i][:-6-i])), tooltip=desiredColumns0[i] + ":Q")
         for y_encoding in desiredColumns[i]:
-            row |= base.encode(
-                y=alt.Y(qual, axis=alt.Axis(labels=False), title=" "),
-                x=alt.X(y_encoding + ":Q"),
-                tooltip=y_encoding + ":Q",
-            )
+            row |= base.encode(y=alt.Y(qual, axis=alt.Axis(labels=False), title=" "), x=alt.X(y_encoding+":Q", title=quantListDict.get(y_encoding[:-7])), tooltip=y_encoding+":Q")
         modChart &= row
 
-    invisible = alt.Chart().mark_bar(opacity=0).encode().properties(width=0, height=0)
+    invisible = alt.Chart().mark_bar(opacity=0).encode().properties(
+         width=0,
+         height=0
+    )
 
     st.altair_chart(autoChart & modChart.transform_filter(multi) & invisible)
 
@@ -815,86 +814,91 @@ elif add_selectbox == "Predict Salary":
         ###########################################
 elif add_selectbox == "Data Demographics":
     ###########################################
-    tempData = df[
-        [
-            "Respondent",
-            "RaceEthnicity2",
-            "ConvertedSalary",
-            "Country",
-            "EducationParents",
-            "Gender2",
-            "SexualOrientation2",
-            "Age",
-            "FormalEducation",
-            "CompanySize",
-            "UndergradMajor",
-            "Student",
-            "Employment",
-            "YearsCoding",
-            "CareerSatisfaction",
-        ]
-    ].copy()
+    tempData = df[["Respondent", "RaceEthnicity2", "ConvertedSalary", "Country", "EducationParents1", "Gender2"
+        , "SexualOrientation2", "Age1", "FormalEducation", "CompanySize1", "UndergradMajor", "Student", "Employment"
+                   , "YearsCoding1", "CareerSatisfaction"]].copy()
 
-    base2 = (
-        alt.Chart()
-        .mark_circle(opacity=0.7, tooltip=True)
-        .encode(
-            size=alt.Size(
-                "count(Respondents):O", legend=None, scale=alt.Scale(domain=(0, 5000))
-            ),
-            color=alt.Color(
-                "median(ConvertedSalary):Q", scale=alt.Scale(domain=(0, 100000))
-            ),
-        )
-        .properties(width=100, height=175)
+    base2 = alt.Chart().mark_circle(opacity=0.7, tooltip=True).encode(
+        size=alt.Size("count(Respondents):O", legend=None, scale=alt.Scale(domain=(0, 5000))),
+        #color=alt.Color("median(ConvertedSalary):Q", scale=alt.Scale(domain=(0, 100000)))
+
+    ).properties(
+         width=100,
+         height=175
     )
 
     desiredColumns0 = ["Gender2", "SexualOrientation2"]
-    desiredColumns = [
-        ["FormalEducation", "RaceEthnicity2", "Student", "Employment", "Age"],
-        [
-            "EducationParents",
-            "CareerSatisfaction",
-            "UndergradMajor",
-            "CompanySize",
-            "YearsCoding",
-        ],
-    ]
+    desiredColumns = [["FormalEducation", "RaceEthnicity2", "CareerSatisfaction", "Student", "Age1"], \
+                      ["EducationParents1", "UndergradMajor", "Employment", "CompanySize1", "YearsCoding1"]]
+
+    labels = st.checkbox("Show Labels", value=False)
+    if labels:
+        spacing = 5
+        countrySize = 1200
+        legend=alt.Legend()
+    else:
+        spacing = 55
+        countrySize = 1000
+        legend=None
+
+
+    yearsCoding = ['0-2', '3-5', '6-8', '9-11', '12-14', '15-17',  '18-20', \
+           '21-23', '24-26', '27-29', '30+']
+
+    age = ['<18', '18-24', '25-34', '35-44', '45-54', '55-64', '65-years']
+
+    companySize = ['<10', '10 to 19', '20 to 99', '100 to 499', '500 to 999',
+           '1000 to 4999', '5000 to 999', '10000+']
+
+    edu = ['None', 'Primary', 'Secondary', 'Some college', "Associate's", "Bachelor's", "Master's",
+           'Professional', 'Doctorate']
+
+    satisfaction = ['Extremely dissatisfied', 'Moderately dissatisfied', 'Slightly dissatisfied',
+                    'Neither satisfied nor dissatisfied', 'Slightly satisfied',
+                    'Moderately satisfied', 'Extremely satisfied']
+
+    emp = ['Unemployed; not looking', 'Unemployed; looking', 'part-time', 'Self-employed', 'full-time',
+           'Retired']
+
+    major = ['Undeclared', 'Business', 'Computer Science', 'Engineering', 'Fine Arts', 'Health Science', 'Humanities', 'Information Systems', 'Mathematics', 'Natural Science', 'Social Science', 'Web Design']
+
+    ethnicity = ['Black', 'East Asian', 'First Peoples', 'Hispanic', 'Middle Eastern', 'Multiracial', 'South Asian', 'White']
+
+    gender = ["Female", "Male", "Non-Binary"]
+
+    sexOrient = ["Heterosexual", "LGBTQ+"]
+
+    fullOrder2 = [
+            order
+            for order in gender + sexOrient
+        ]
+
+    fullOrder = [
+            order
+            for order in yearsCoding + age + companySize + edu + satisfaction + emp + major + ethnicity
+        ]
+
+    columnDict = {"Gender2":"Gender", "SexualOrientation2":"Sexual Orientation", "FormalEducation":"Formal Education",
+                  "EducationParents1":"Parents' Education", "UndergradMajor": "Undergrad Major",
+                  "Employment":"Employment Status", "CareerSatisfaction":"Career Satisfaction",
+                  "Student":"Student Status", "Age1":"Age", "YearsCoding1":"Years of Coding",
+                  "CompanySize1":"Company Size", "RaceEthnicity2":"Race/Ethnicity"
+    }
 
     demoChart = alt.vconcat(data=tempData, title="Data Demographics")
     for i in range(2):
-        row = alt.hconcat(spacing=55)
-        row |= base2.encode(
-            y=alt.Y(desiredColumns0[i], axis=alt.Axis(labels=False, tickSize=0))
-        )
+        row = alt.hconcat(spacing=spacing)
+        row |= base2.encode(y=alt.Y(desiredColumns0[i], title=columnDict.get(desiredColumns0[i]), sort=fullOrder2, axis=alt.Axis(labels=labels, tickSize=0)), color=alt.condition("datum."+desiredColumns0[i]+"!=null", alt.Color("median(ConvertedSalary):Q", scale=alt.Scale(domain=(0, 100000))), alt.value('FF7F7F')))
         for y_encoding in desiredColumns[i]:
-            row |= base2.encode(
-                y=alt.Y(y_encoding, axis=alt.Axis(labels=False, tickSize=0))
-            )
+            row |= base2.encode(y=alt.Y(y_encoding, title=columnDict.get(y_encoding), sort=fullOrder, axis=alt.Axis(labels=labels, tickSize=0)), color=alt.condition("datum."+y_encoding+"!=null", alt.Color("median(ConvertedSalary):Q", legend=legend, title="Median Salary (USD)", scale=alt.Scale(domain=(0, 100000))), alt.value('FF7F7F')))
         demoChart &= row
 
-    countryChart = (
-        alt.Chart(tempData)
-        .mark_circle(opacity=0.7, tooltip=True)
-        .encode(
-            x=alt.X(
-                "Country",
-                stack=None,
-                title="Country",
-                axis=alt.Axis(labels=False, tickSize=0),
-            ),
-            size=alt.Size(
-                "count(Respondents):O", legend=None, scale=alt.Scale(domain=(0, 5000))
-            ),
-            color=alt.Color(
-                "median(ConvertedSalary):Q",
-                legend=None,
-                scale=alt.Scale(domain=(0, 100000)),
-            ),
-        )
-        .properties(width=1000, height=100)
-    )
+    countryChart = alt.Chart(tempData).mark_circle(opacity=0.7, tooltip=True).encode(
+        x=alt.X("Country", stack=None, title="Country", axis=alt.Axis(labels=False, tickSize=0)),
+        size=alt.Size("count(Respondents):O", legend=None, scale=alt.Scale(domain=(0, 5000))),
+        color=alt.condition("datum.Country!=null", alt.Color("median(ConvertedSalary):Q", legend=None, scale=alt.Scale(domain=(0, 100000))), alt.value('FF7F7F'))
+    ).properties(width=countrySize, height=100)
 
     st.altair_chart(demoChart)
     st.altair_chart(countryChart)
-##########################################
+    ##########################################
