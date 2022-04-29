@@ -52,9 +52,14 @@ A major hurdle that we had to overcome was the large size of the dataset. In unc
 
 ## **Measure Success**
 
-A wide variety of users visit Stack Overflow for a wide variety of needs. “Noobs” and experienced programmers, 
+A wide variety of users visit Stack Overflow for a wide variety of needs. “Noobs” and experienced programmers, artists and engineers, hobbyists and professionals- everyone who has Googled a programming question and clicked the first “Stack Overflow” response in the responses is a part of the community. So defining “success” for that community was broad and challenging. This chart was designed to allow the user to use their own definition, then see how choices in areas of focus and the mastery of various tools affects quantitative measures of success. The user can choose from 10 different qualitative categories and two of five different quantitative measures, for a total of 150 unique charts (10*(5c2 + 5c1)=10*(10+5)=150). The user can then subselect quantities to see how frequently they occur in the data, and how they compare across all the quantitative fields. So for example, a user could select “Programming Languages” as a qualitative field and “Salary” and “Job Satisfaction” as quantitative fields, then subselect “Java”, “Python”, and “C++” to see how those three languages compare in terms of years of experience and average number of monitors uses. 
 
-There is a simple reason for the existence of this visual - freedom. The dataset is extremely rich in terms of the features that have been recorded, it represents a huge diversity that the software developer community has given rise to. 
+This is an absolutely staggering volume of information that the user has at their fingertips. I haven’t even explored every possible combination. However, one thing that I noticed is that every combination that I sampled generated a compelling narrative. Thus, a deliberate decision was made to avoid giving users a suggested direction of exploration- we felt that illuminating a patch could obscure the road less traveled. 
+
+The visual encodings used in this chart are length (for primary quantitative) and color (for secondary quantitative), with length being again used for the secondary interactive chart and color (via opacity) again being used to indicate what has been selected. Length is the most efficient encoding for direct comparison of quantitative measurements- it is used heavily throughout the presentation. Color is slightly less efficient but is compatible with length, and the gradient values also produce a pleasing visual effect. 
+
+Some challenges in making this chart included data preparation. Most of the data was locked into comma separated lists WITHIN a single “cell” in the larger CSV- essentially a “table inside a table”.  Unlocking this data posed significant challenges, and was accomplished at scale via robust and computationally fast data preparation functions that are called when the user selects categories of interests and then passed to Altair to generate the chart. Some compromises had to be made to accommodate this; for instance I would have preferred to display median salary in order to avoid undue influence from outliers, but unfortunately it was not possible to carry this aggregation through the data transformations. 
+
 
 
 ## **Breaking the Habit**
@@ -99,7 +104,8 @@ To make the narrative cohesive, and prevent information overload for the user, w
 
 ## **Measure Success**
 
-Some very interesting insights have come out of this dashboard. And the good thing about this one is, the more you explore it according to your own interests, the more it might just keep on giving. We would like to highlight some of the key findings that we’ve come across during our exploration of the data using this dashboard, but the window remains open for finding something novel with a different combination of the feature sets. 
+As said above, I didn’t explore a pathway in this that DIDN'T lead to some interesting insights. For instance, job satisfaction tends to correlate with salary across most qualitative categories. Hack and F# programmers use the most monitors, while Swift and C use the least. Cobol programmers are apparently all old, rich, and unhappy. Vim IDE users have the highest job satisfaction across IDEs. Job satisfaction and company size perfectly correlate with amount of education, except for those with professional degrees, who have a level of job satisfaction between high school graduates and those with “some college”. I generated the above examples in real time as I write this- it feels like shaking a magic eight ball that gives a different interesting result each time. 
+
 ![success](assets/measure-success.png)
 
 ## **Breaking the Habit**
