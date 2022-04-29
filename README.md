@@ -1,11 +1,8 @@
 # To Code or Not to Code
 
 * **Online URL**: https://share.streamlit.io/cmu-ids-2022/final-project-zebra/main/StackOverFlow.py
-* **Team members**:
-  * [Nate](mailto:ndf@andrew.cmu.edu)
-  * [Naman](mailto:namana@andrew.cmu.edu)
-  * [Ruhi](mailto:ruhihemp@andrew.cmu.edu)
-  * [Somya](mailto:somyaa@andrew.cmu.edu)
+
+This is an academic project built for 05839 - Interactive Data Science, a class I took at CMU. 
 
 
 ## Summary  
