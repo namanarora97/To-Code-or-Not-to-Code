@@ -37,6 +37,10 @@ The dataset is larger than what GitHub supports. Hence, it is hosted on an Azure
 
 The ML model training script (post data cleaning) can be found in ```TrainModel.py```
 
+### **Warning**
+
+The application works on a large dataset and an equally large ML model that is fetched from an Azure blob storage. Since the free version of Streamlit cloud is limited to 1GB of RAM, it may crash or function very low on performance. For a smoother experience, you can swtich to local deployment using the instructions above. 
+
 ## Work distribution and Process Flow
 
 All of our work was fairly equally distributed. We worked on the cleaning process in collaboration, and used DeepNote to work together and collaborate on a live shared Python notebook. Each team member had roughly the same contribution to the cleaning process, which was a huge task in itself because the data was extremly dirty.  
