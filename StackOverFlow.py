@@ -391,7 +391,9 @@ elif add_selectbox == "Breaking the Habit":
         .add_selection(picked)
         .properties(width=800, height=500)
     )
-    st.altair_chart(hist)
+    invisible = alt.Chart().mark_bar(opacity=0).encode().properties(width=20, height=0)
+
+    st.altair_chart(invisible | hist)
 
 elif add_selectbox == "Measure Success!":
     #################################################
