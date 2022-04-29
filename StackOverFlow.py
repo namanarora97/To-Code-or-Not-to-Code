@@ -205,7 +205,7 @@ if add_selectbox == "Introduction":
     # st.subheader("Team Zebra")
     st.image("survey-logo.png")
     st.write(
-        "The dataset contains responses of 98,885 respondents who reported information ranging from their excercise habits to compensative levels"
+        "The dataset contains responses of 98,885 respondents who reported information ranging from their excercise habits to compensation levels"
     )
     st.write("We analyzed the data to find factors that make a programmer successful.")
     st.subheader("Use the sidebar to explore the data")
@@ -393,7 +393,7 @@ elif add_selectbox == "Breaking the Habit":
     )
     invisible = alt.Chart().mark_bar(opacity=0).encode().properties(width=20, height=0)
 
-    st.altair_chart(invisible | hist)
+    st.altair_chart(invisible | hist | invisible)
 
 elif add_selectbox == "Measure Success!":
     #################################################
