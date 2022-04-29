@@ -1063,7 +1063,7 @@ elif add_selectbox == "Data Demographics":
                 alt.Color(
                     "median(ConvertedSalary):Q", scale=alt.Scale(domain=(0, 100000))
                 ),
-                alt.value("FF7F7F"),
+                alt.value("orange"),
             ),
         )
         for y_encoding in desiredColumns[i]:
@@ -1082,7 +1082,7 @@ elif add_selectbox == "Data Demographics":
                         title="Median Salary (USD)",
                         scale=alt.Scale(domain=(0, 100000)),
                     ),
-                    alt.value("FF7F7F"),
+                    alt.value("orange"),
                 ),
             )
         demoChart &= row
@@ -1107,7 +1107,7 @@ elif add_selectbox == "Data Demographics":
                     legend=None,
                     scale=alt.Scale(domain=(0, 100000)),
                 ),
-                alt.value("FF7F7F"),
+                alt.value("orange"),
             ),
         )
         .properties(width=countrySize, height=100)
