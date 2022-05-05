@@ -37,12 +37,3 @@ The ML model training script (post data cleaning) can be found in ```TrainModel.
 ### **Warning**
 
 The application works on a large dataset and an equally large ML model that is fetched from an Azure blob storage. Since the free version of Streamlit cloud is limited to 1GB of RAM, it may crash or function very low on performance. For a smoother experience, you can swtich to local deployment using the instructions above. 
-
-## Work distribution and Process Flow
-
-All of our work was fairly equally distributed. We worked on the cleaning process in collaboration, and used DeepNote to work together and collaborate on a live shared Python notebook. Each team member had roughly the same contribution to the cleaning process, which was a huge task in itself because the data was extremly dirty.  
-
-After cleaning, we decided to realise the ideas we had conceptualized during the sketching phase. Nate worked on the "Measure Success" and the "Demographics Explorer" dashboards. Naman worked towards further cleaning of the data and later used it to train the Random Forest regressor for salary prediction. Ruhi came with the novel idea of explorng how habits affect other quanitifiable parameters and worked on it in entirety. Somya handled the Job Satisfaction prediciton and Today to Tomorrow dashboards. 
-
-Our process was centered around attempting to create modular code, so we could collaborate effectively. We were able to develop a final application with separation of concerns (multiple dashboards were implemented using radio buttons on the sidebar) while still making use of the same streamlit cache and data cleaning functions. This reduces the overall workload on both the team members and servers!
-
